@@ -4,22 +4,17 @@ import adt.linkedlist.MyList;
 import adt.linkedlist.Node;
 public class Main {
     public static void main(String[] args) {
-        Arbolbinario<Integer, Integer> oTree = new Arbolbinario<>();
+        Arbolbinario<Integer, String> Arbol = new Arbolbinario<>();
 
-        oTree.add(3, 3);
-        System.out.println("Se agrego 3");
-        oTree.add(21, 21);
-        System.out.println("Se agrego 21");
-        oTree.add(11, 11);
-        System.out.println("Se agrego 11");
-        oTree.add(-1, -1);
-        System.out.println("Se agrego -1");
-        oTree.add(4, 4);
-        System.out.println("Se agrego 4");
-        oTree.add(18, 18);
-        System.out.println("Se agrego 18");
-
-        MyList<Integer> ls = oTree.inOrder();
+        Arbol.add(3, "Raiz");
+        Arbol.add(21, "Hola");
+        Arbol.add(11, "11");
+        Arbol.add(-1, "-1");
+        Arbol.add(4, "cuatro");
+        Arbol.add(18, "18");
+        Arbol.add(2, "2");
+        System.out.println(Arbol.find(21));
+        MyList<Integer> ls = Arbol.preOrder();
         for(int i = 0; i<ls.size(); i++){
             System.out.println(ls.get(i));
         }
