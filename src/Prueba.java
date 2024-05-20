@@ -14,6 +14,7 @@ public class Prueba {
     }
     public void stack(){
 
+
     }
     public void queue(){
 
