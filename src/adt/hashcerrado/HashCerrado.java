@@ -1,14 +1,45 @@
 package adt.hashcerrado;
+import adt.hashcerrado.MyHashCerrado;
+import adt.linkedlist.MyLinkedListImpl;
 
-public class HashCerrado<V> implements MyHashCerrado<V> {
+public class HashCerrado<K,V> implements MyHashCerradoI<K,V> {
 
-    public void insert(V valor) {
-        
+    public HashCerrado() {
+        Object [] hashTable = new Object[100];
     }
-    public void serch(V valor) {
+
+    @Override
+    public void put(K k, V v) {
 
     }
-    public void delate(V valor) {
 
+    @Override
+    public V get(K k) {
+        return null;
+    }
+
+    @Override
+    public Boolean contains(K k) {
+        return null;
+    }
+
+    @Override
+    public void remuve(K k) {
+
+    }
+
+    @Override
+    public MyLinkedListImpl<K> Keys() {
+        return null;
+    }
+
+    @Override
+    public MyLinkedListImpl<V> Values() {
+        return null;
+    }
+
+    @Override
+    public int size() {
+        return 0;
     }
 }
