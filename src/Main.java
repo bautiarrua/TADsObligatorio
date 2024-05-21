@@ -10,12 +10,6 @@ import org.junit.Test;
 
 public class Main {
     public static void main(String[] args) {
-        Prueba MiPrueba = new Prueba();
-        MiPrueba.stack_push();
-        try {
-            MiPrueba.stack_pop();
-        }catch (EmptyStackException e){};
-        MiPrueba.stack_peek();
 
     }
 
