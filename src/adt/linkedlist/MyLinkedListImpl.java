@@ -1,12 +1,11 @@
 package adt.linkedlist;
 
-import adt.circularlinkedlist.MyCircularLinkedList;
 import adt.queue.EmptyQueueException;
 import adt.queue.MyQueue;
 import adt.stack.EmptyStackException;
 import adt.stack.MyStack;
 
-public class MyLinkedListImpl<T> implements MyList<T>, MyQueue<T>, MyStack<T>, MyCircularLinkedList<T> {
+public class MyLinkedListImpl<T> implements MyList<T>, MyQueue<T>, MyStack<T>{
 
     private Node<T> first;
 
@@ -236,11 +235,5 @@ public class MyLinkedListImpl<T> implements MyList<T>, MyQueue<T>, MyStack<T>, M
     }
 
     // Operaciones particulares a CircularLinkedList
-    @Override
-    public T getCircularLogic(int position) {
-        if (size() == 0) {
-            return null;
-        }
-        return get(position % size());
-    }
+
 }
