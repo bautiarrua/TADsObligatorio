@@ -2,19 +2,19 @@ package adt.hashcerrado;
 
 import adt.linkedlist.MyLinkedListImpl;
 
-public interface MyHashCerradoI<Key, Value> {
+public interface MyHashCerradoI<K, V> {
 
-    void put(Key key, Value value);
+    void put(K key, V value);
 
-    Value get(Key key);
+    V get(K key);
 
-    Boolean contains(Key key);
+    Boolean contains(K key);
 
-    void remuve (Key key);
+    void remove (K key);
 
-    MyLinkedListImpl<Key> Keys();
+    MyLinkedListImpl<K> Keys();
 
-    MyLinkedListImpl<Value> Values();
+    MyLinkedListImpl<V> Values();
 
     int size();
 
