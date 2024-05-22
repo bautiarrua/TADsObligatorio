@@ -7,6 +7,7 @@ import adt.queue.MyQueue;
 import adt.stack.EmptyStackException;
 import adt.stack.MyStack;
 
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -15,6 +16,12 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Prueba {
+
+//    @Before
+//    public void Before(){
+//        MyStack<Integer> stack = new MyLinkedListImpl<>();
+//    }
+
     @Test
     public void Stack_size() {
         MyStack<Integer> stack = new MyLinkedListImpl<>();
