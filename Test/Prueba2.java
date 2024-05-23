@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class Prueba2 {
     MyStack<Integer> stack;
@@ -251,7 +252,7 @@ public class Prueba2 {
             assertEquals(200,hash.get(20));
             assertEquals(false,hash.contains(10));
             assertEquals(1,hash.size());
-            assertEquals(null,hash.get(10));
+            assertNull(hash.get(10));
         }catch (NoEsta e){}
     }
 

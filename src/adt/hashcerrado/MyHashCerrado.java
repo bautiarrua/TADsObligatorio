@@ -3,63 +3,30 @@ package adt.hashcerrado;
 import adt.Exceptions.NoEsta;
 import adt.arbolbinario.TreeNode;
 import adt.linkedlist.MyLinkedListImpl;
+import adt.hashcerrado.Entry;
 
 import java.security.Key;
-import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MyHashCerrado<K,V> implements MyHashCerradoI<K,V> {
-    private static class Entry<K, V> {
-        K key;
-        V value;
-        boolean deleted;
-
-        public K getKey() {
-            return key;
-        }
-
-        public void setKey(K key) {
-            this.key = key;
-        }
-
-        public V getValue() {
-            return value;
-        }
-
-        public void setValue(V value) {
-            this.value = value;
-        }
-
-        public boolean isDeleted() {
-            return deleted;
-        }
-
-        public void setDeleted(boolean deleted) {
-            this.deleted = deleted;
-        }
-
-        Entry(K key, V value) {
-            this.key = key;
-            this.value = value;
-            this.deleted = false;
-        }
-    }
 
     private int capacityd = 16;
-    private double FactorDeCarga = 0.75;
-
+    final double FactorDeCarga = 0.75;
     private Entry<K, V>[] table;
+    K keys[];
+    V values[];
     private int capacity;
+    int size = 0;
 
     public MyHashCerrado() {
         this.capacity = capacityd;
         this.table = new Entry[capacity];
     }
 
-    int size = 0;
-
     private int hash(K key) {
         return key.hashCode();
     }
+
     public void put(K key, V value) {
         boolean com = false;
         if(size/capacity>=FactorDeCarga){
@@ -68,17 +35,12 @@ public class MyHashCerrado<K,V> implements MyHashCerradoI<K,V> {
         else{
             int indice = hash(key)%capacity;
             Entry<K,V> nuevo = new Entry<>(key,value);
-            while (com == false) {
-                if (table[indice] == null) {
+            while (!com) {
+                if (table[indice] == null || table[indice].isDeleted()) {
                     table[indice] = nuevo;
                     com = true;
                     size = size +1;
-                } else if(table[indice] != null && table[indice].isDeleted()){
-                    table[indice] = nuevo;
-                    com = true;
-                    size = size +1;
-                }
-                else {
+                } else {
                     indice = (hash(key) + 1) % capacity;
                 }
             }
@@ -92,7 +54,7 @@ public class MyHashCerrado<K,V> implements MyHashCerradoI<K,V> {
         while (table[indice].getKey() != key){
             indice = indice +1;
             cont = cont +1;
-            if(cont>capacity){
+            if(cont > capacity){
                 throw new NoEsta();
             }
         }
