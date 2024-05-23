@@ -1,6 +1,5 @@
 package adt.hashcerrado;
 
-// private static class Entry<K, V> {
 public class Entry<K, V> {
 
     K key;

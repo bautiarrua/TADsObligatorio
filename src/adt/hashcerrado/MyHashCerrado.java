@@ -1,20 +1,16 @@
 package adt.hashcerrado;
 
 import adt.Exceptions.NoEsta;
-import adt.arbolbinario.TreeNode;
 import adt.linkedlist.MyLinkedListImpl;
-import adt.hashcerrado.Entry;
 
-import java.security.Key;
-import java.util.Arrays;
 
 public class MyHashCerrado<K,V> implements MyHashCerradoI<K,V> {
 
     private int capacityd = 16;
     final double FactorDeCarga = 0.75;
     private Entry<K, V>[] table;
-    K keys[];
-    V values[];
+    MyLinkedListImpl<K> keys = new MyLinkedListImpl<>();
+    MyLinkedListImpl<V> values = new MyLinkedListImpl<>();
     private int capacity;
     int size = 0;
 
@@ -40,6 +36,9 @@ public class MyHashCerrado<K,V> implements MyHashCerradoI<K,V> {
                     table[indice] = nuevo;
                     com = true;
                     size = size +1;
+                    keys.add(key);
+                    values.add(value);
+
                 } else {
                     indice = (hash(key) + 1) % capacity;
                 }
@@ -92,16 +91,22 @@ public class MyHashCerrado<K,V> implements MyHashCerradoI<K,V> {
                 throw new NoEsta();
             }
         }
+
         table[indice].setDeleted(true);
-        size = size -1;
+        size = size - 1;
+        K keyTemp = table[indice].getKey();
+        V valueTemp = table[indice].getValue();
+        keys.remove(keyTemp);
+        values.remove(valueTemp);
     }
 
     public MyLinkedListImpl<K> Keys() {
-        return null;
+
+        return keys;
     }
 
     public MyLinkedListImpl<V> Values() {
-        return null;
+        return values;
     }
 
     public int size(){
