@@ -1,5 +1,6 @@
 package adt.hashcerrado;
 
+import adt.Exceptions.NoEsta;
 import adt.arbolbinario.TreeNode;
 import adt.linkedlist.MyLinkedListImpl;
 
@@ -12,25 +13,49 @@ public class MyHashCerrado<K,V> implements MyHashCerradoI<K,V> {
         V value;
         boolean deleted;
 
+        public K getKey() {
+            return key;
+        }
+
+        public void setKey(K key) {
+            this.key = key;
+        }
+
+        public V getValue() {
+            return value;
+        }
+
+        public void setValue(V value) {
+            this.value = value;
+        }
+
+        public boolean isDeleted() {
+            return deleted;
+        }
+
+        public void setDeleted(boolean deleted) {
+            this.deleted = deleted;
+        }
+
         Entry(K key, V value) {
             this.key = key;
             this.value = value;
             this.deleted = false;
         }
     }
-    private static final int capacityd = 16;
-    private static final double FactorDeCarga = 0.75;
 
+    private int capacityd = 16;
+    private double FactorDeCarga = 0.75;
 
     private Entry<K, V>[] table;
-    private int size;
     private int capacity;
 
     public MyHashCerrado() {
         this.capacity = capacityd;
         this.table = new Entry[capacity];
-        this.size = 0;
     }
+
+    int size = 0;
 
     private int hash(K key) {
         return key.hashCode();
@@ -41,13 +66,19 @@ public class MyHashCerrado<K,V> implements MyHashCerradoI<K,V> {
             //resize();
         }
         else{
-            int indice =  hash(key)%capacity;
+            int indice = hash(key)%capacity;
             Entry<K,V> nuevo = new Entry<>(key,value);
-            while (!com) {
-                if (table[indice] != null || table[indice].deleted) {
+            while (com == false) {
+                if (table[indice] == null) {
                     table[indice] = nuevo;
                     com = true;
-                } else {
+                    size = size +1;
+                } else if(table[indice] != null && table[indice].isDeleted()){
+                    table[indice] = nuevo;
+                    com = true;
+                    size = size +1;
+                }
+                else {
                     indice = (hash(key) + 1) % capacity;
                 }
             }
@@ -55,16 +86,52 @@ public class MyHashCerrado<K,V> implements MyHashCerradoI<K,V> {
 
     }
 
-    public V get(K key) {
-        return null;
+    public V get(K key) throws NoEsta{
+        int indice = hash(key)%capacity;
+        int cont = 0;
+        while (table[indice].getKey() != key){
+            indice = indice +1;
+            cont = cont +1;
+            if(cont>capacity){
+                throw new NoEsta();
+            }
+        }
+        if(table[indice].isDeleted()){
+            throw new NoEsta();
+        }else {
+            return table[indice].getValue();
+        }
     }
 
     public Boolean contains(K key) {
-        return null;
+        int indice = hash(key)%capacity;
+        int cont = 0;
+        while (table[indice].getKey() != key) {
+            indice = indice + 1;
+            cont = cont + 1;
+            if (cont > capacity) {
+                return false;
+            }
+        }
+        if (table[indice].isDeleted()) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
-    public void remove(K key) {
-
+    public void remove(K key) throws NoEsta {
+        int indice = hash(key)%capacity;
+        int cont = 0;
+        while (table[indice].getKey() != key){
+            indice = indice +1;
+            cont = cont +1;
+            if(cont>capacity){
+                throw new NoEsta();
+            }
+        }
+        table[indice].setDeleted(true);
+        size = size -1;
     }
 
     public MyLinkedListImpl<K> Keys() {
@@ -75,7 +142,7 @@ public class MyHashCerrado<K,V> implements MyHashCerradoI<K,V> {
         return null;
     }
 
-    public int size() {
-        return 0;
+    public int size(){
+        return size;
     }
 }
