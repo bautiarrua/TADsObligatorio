@@ -1,7 +1,7 @@
 import adt.Exceptions.NoEsta;
+import adt.Exceptions.YaExiste;
 import adt.arbolbinario.BinaryTree;
 import adt.arbolbinario.SearchBinaryTreeImpl;
-import adt.hashcerrado.HashCerrado;
 import adt.hashcerrado.MyHashCerrado;
 import adt.hashcerrado.MyHashCerradoI;
 import adt.linkedlist.MyLinkedListImpl;
@@ -202,8 +202,10 @@ public class Prueba2 {
     @Test
     public void hash_size(){
         assertEquals(0,hash.size());
-        hash.put(10,10);
-        hash.put(11,11);
+        try {
+            hash.put(10,10);
+            hash.put(11,11);
+        }catch (YaExiste e){}
         assertEquals(2,hash.size());
         try {
             hash.remove(10);
@@ -212,7 +214,9 @@ public class Prueba2 {
     }
     @Test
     public void hash_put(){
-        hash.put(100,100);
+        try {
+            hash.put(100,100);
+        }catch (YaExiste e){}
         assertEquals(true,hash.contains(100));
         try {
             assertEquals(100,hash.get(100));
@@ -222,7 +226,9 @@ public class Prueba2 {
 
     @Test
     public void hash_contain(){
-        hash.put(10,100);
+        try {
+            hash.put(10,100);
+        }catch (YaExiste e){}
         assertEquals(true,hash.contains(10));
         try {
             hash.remove(10);
@@ -231,8 +237,10 @@ public class Prueba2 {
     }
     @Test
     public void hash_remove(){
-        hash.put(10,100);
-        hash.put(20,200);
+        try {
+            hash.put(10,100);
+            hash.put(20,200);
+        }catch (YaExiste e){}
         assertEquals(true,hash.contains(10));
         assertEquals(2,hash.size());
         try {
@@ -244,8 +252,10 @@ public class Prueba2 {
 
     @Test
     public void hash_get(){
-        hash.put(10,100);
-        hash.put(20,200);
+        try {
+            hash.put(10,100);
+            hash.put(20,200);
+        }catch (YaExiste e){}
         try {
             assertEquals(100,hash.get(10));
             hash.remove(10);
@@ -256,26 +266,30 @@ public class Prueba2 {
         }catch (NoEsta e){}
     }
 
-//    @Test
-//    public void hash_Linkedlistkeys(){
-//        hash.put(10,100);
-//        hash.put(20,200);
-//        hash.put(15,150);
-//        MyLinkedListImpl<Integer> Kl = hash.Keys();
-//        assertEquals(true,Kl.contains(10));
-//        assertEquals(true,Kl.contains(20));
-//        assertEquals(true,Kl.contains(15));
-//    }
-//     @Test
-//    public void hash_Linkedlistvalue(){
-//        hash.put(10,100);
-//        hash.put(20,200);
-//        hash.put(15,150);
-//        MyLinkedListImpl<Integer> Kl = hash.Values();
-//        assertEquals(true,Kl.contains(100));
-//        assertEquals(true,Kl.contains(200));
-//        assertEquals(true,Kl.contains(150));
-//    }
+    @Test
+    public void hash_Linkedlistkeys(){
+        try {
+            hash.put(10,100);
+            hash.put(20,200);
+            hash.put(15,15);
+        }catch (YaExiste e){}
+        MyLinkedListImpl<Integer> Kl = hash.Keys();
+        assertEquals(true,Kl.contains(10));
+        assertEquals(true,Kl.contains(20));
+        assertEquals(true,Kl.contains(15));
+    }
+     @Test
+    public void hash_Linkedlistvalue(){
+         try {
+             hash.put(10,100);
+             hash.put(20,200);
+             hash.put(15,15);
+         }catch (YaExiste e){}
+        MyLinkedListImpl<Integer> Kl = hash.Values();
+        assertEquals(true,Kl.contains(100));
+        assertEquals(true,Kl.contains(200));
+        assertEquals(true,Kl.contains(150));
+    }
 
 }
 

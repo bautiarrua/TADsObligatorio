@@ -1,6 +1,7 @@
 package adt.hashcerrado;
 
 import adt.Exceptions.NoEsta;
+import adt.Exceptions.YaExiste;
 import adt.linkedlist.MyLinkedListImpl;
 
 
@@ -23,7 +24,8 @@ public class MyHashCerrado<K,V> implements MyHashCerradoI<K,V> {
         return key.hashCode();
     }
 
-    public void put(K key, V value) {
+    public void put(K key, V value) throws YaExiste{
+        int a = 0;
         boolean com = false;
         if(size/capacity>=FactorDeCarga){
             //resize();
@@ -32,15 +34,18 @@ public class MyHashCerrado<K,V> implements MyHashCerradoI<K,V> {
             int indice = hash(key)%capacity;
             Entry<K,V> nuevo = new Entry<>(key,value);
             while (!com) {
+                a++;
                 if (table[indice] == null || table[indice].isDeleted()) {
                     table[indice] = nuevo;
                     com = true;
                     size = size +1;
                     keys.add(key);
                     values.add(value);
-
-                } else {
-                    indice = (hash(key) + 1) % capacity;
+                } else if(table[indice].getKey()==key){
+                    throw new YaExiste();
+                }
+                else {
+                    indice = (hash(key) + a) % capacity;
                 }
             }
         }
@@ -48,10 +53,12 @@ public class MyHashCerrado<K,V> implements MyHashCerradoI<K,V> {
     }
 
     public V get(K key) throws NoEsta{
+        int a = 0;
         int indice = hash(key)%capacity;
         int cont = 0;
         while (table[indice].getKey() != key){
-            indice = indice +1;
+            a++;
+            indice = (hash(key) + a) % capacity;
             cont = cont +1;
             if(cont > capacity){
                 throw new NoEsta();
@@ -65,10 +72,12 @@ public class MyHashCerrado<K,V> implements MyHashCerradoI<K,V> {
     }
 
     public Boolean contains(K key) {
+        int a = 0;
         int indice = hash(key)%capacity;
         int cont = 0;
         while (table[indice].getKey() != key) {
-            indice = indice + 1;
+            a++;
+            indice = (hash(key) + a) % capacity;
             cont = cont + 1;
             if (cont > capacity) {
                 return false;
@@ -82,16 +91,17 @@ public class MyHashCerrado<K,V> implements MyHashCerradoI<K,V> {
     }
 
     public void remove(K key) throws NoEsta {
+        int a = 0;
         int indice = hash(key)%capacity;
         int cont = 0;
         while (table[indice].getKey() != key){
-            indice = indice +1;
+            a++;
+            indice = (hash(key) + a) % capacity;
             cont = cont +1;
             if(cont>capacity){
                 throw new NoEsta();
             }
         }
-
         table[indice].setDeleted(true);
         size = size - 1;
         K keyTemp = table[indice].getKey();
@@ -101,7 +111,6 @@ public class MyHashCerrado<K,V> implements MyHashCerradoI<K,V> {
     }
 
     public MyLinkedListImpl<K> Keys() {
-
         return keys;
     }
 

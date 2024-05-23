@@ -1,11 +1,12 @@
 package adt.hashcerrado;
 
 import adt.Exceptions.NoEsta;
+import adt.Exceptions.YaExiste;
 import adt.linkedlist.MyLinkedListImpl;
 
 public interface MyHashCerradoI<K, V> {
 
-    void put(K key, V value);
+    void put(K key, V value) throws YaExiste;
 
     V get(K key) throws NoEsta;
 
