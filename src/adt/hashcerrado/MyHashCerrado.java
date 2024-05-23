@@ -24,27 +24,25 @@ public class MyHashCerrado<K,V> implements MyHashCerradoI<K,V> {
         return key.hashCode();
     }
 
-    public void put(K key, V value) throws YaExiste{
+    public void put(K key, V value) throws YaExiste {
         int a = 0;
         boolean com = false;
-        if(size/capacity>=FactorDeCarga){
+        if (size / capacity >= FactorDeCarga) {
             //resize();
-        }
-        else{
-            int indice = hash(key)%capacity;
-            Entry<K,V> nuevo = new Entry<>(key,value);
+        } else {
+            int indice = hash(key) % capacity;
+            Entry<K, V> nuevo = new Entry<>(key, value);
             while (!com) {
                 a++;
                 if (table[indice] == null || table[indice].isDeleted()) {
                     table[indice] = nuevo;
                     com = true;
-                    size = size +1;
+                    size = size + 1;
                     keys.add(key);
                     values.add(value);
-                } else if(table[indice].getKey()==key){
+                } else if (table[indice].getKey() == key) {
                     throw new YaExiste();
-                }
-                else {
+                } else {
                     indice = (hash(key) + a) % capacity;
                 }
             }
@@ -52,41 +50,49 @@ public class MyHashCerrado<K,V> implements MyHashCerradoI<K,V> {
 
     }
 
-    public V get(K key) throws NoEsta{
+    public V get(K key) throws NoEsta {
         int a = 0;
-        int indice = hash(key)%capacity;
+        int indice = hash(key) % capacity;
         int cont = 0;
-        while (table[indice].getKey() != key){
-            a++;
-            indice = (hash(key) + a) % capacity;
-            cont = cont +1;
-            if(cont > capacity){
-                throw new NoEsta();
+        if(table[indice] != null) {
+            while (table[indice].getKey() != key) {
+                a++;
+                indice = (hash(key) + a) % capacity;
+                cont = cont + 1;
+                if (cont > capacity) {
+                    throw new NoEsta();
+                }
             }
-        }
-        if(table[indice].isDeleted()){
-            throw new NoEsta();
+            if (table[indice].isDeleted()) {
+                throw new NoEsta();
+            } else {
+                return table[indice].getValue();
+            }
         }else {
-            return table[indice].getValue();
+            throw new NoEsta();
         }
     }
 
     public Boolean contains(K key) {
         int a = 0;
-        int indice = hash(key)%capacity;
+        int indice = hash(key) % capacity;
         int cont = 0;
-        while (table[indice].getKey() != key) {
-            a++;
-            indice = (hash(key) + a) % capacity;
-            cont = cont + 1;
-            if (cont > capacity) {
-                return false;
+        if (table[indice] != null) {
+            while (table[indice].getKey() != key) {
+                a++;
+                indice = (hash(key) + a) % capacity;
+                cont = cont + 1;
+                if (cont > capacity) {
+                    return false;
+                }
             }
-        }
-        if (table[indice].isDeleted()) {
+            if (table[indice].isDeleted()) {
+                return false;
+            } else {
+                return true;
+            }
+        }else{
             return false;
-        } else {
-            return true;
         }
     }
 
