@@ -20,6 +20,9 @@ public class Main {
         }catch (YaExiste e){}
         try {
             hash.remove(10);
+            System.out.println(hash.indice(26));
+            System.out.println(hash.indice(27));
+            System.out.println(hash.indice(42));
         }catch (NoEsta e){}
         System.out.println(hash.contains(10));
 

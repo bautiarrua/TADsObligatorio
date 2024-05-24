@@ -36,6 +36,7 @@ public class MyHashCerrado<K,V> implements MyHashCerradoI<K,V> {
         boolean com = false;
         if (size / capacity >= FactorDeCarga) {
             resize();
+            put(key,value);
         } else {
             int indice = hash(key) % capacity;
             Entry<K, V> nuevo = new Entry<>(key, value);
@@ -43,7 +44,6 @@ public class MyHashCerrado<K,V> implements MyHashCerradoI<K,V> {
                 a++;
                 if (table[indice] == null || table[indice].isDeleted()) {
                     table[indice] = nuevo;
-                    System.out.println("se agrego la key "+ key+" en el indice "+indice);
                     com = true;
                     size = size + 1;
                     keys.add(key);
@@ -90,17 +90,11 @@ public class MyHashCerrado<K,V> implements MyHashCerradoI<K,V> {
                 a++;
                 indice = (hash(key) + a) % capacity;
                 cont = cont + 1;
-                if (cont > capacity*2) {
+                if (cont > capacity) {
                     return false;
                 }
-                if(indice == capacity){
-                    if(table[0] == null){
-                        return false;
-                    }
-                }else{
-                    if(table[indice + 1] == null){
-                        return false;
-                    }
+                if(table[indice] == null){
+                    return false;
                 }
             }
             if (table[indice].isDeleted()) {
@@ -180,7 +174,6 @@ public class MyHashCerrado<K,V> implements MyHashCerradoI<K,V> {
     }
 
     public void resize() {
-        System.out.println("haciendo el resize");
         boolean com = false;
         setCapacity(capacity * 2);
         Entry<K, V>[] nuevatable = new Entry[capacity];
@@ -195,7 +188,6 @@ public class MyHashCerrado<K,V> implements MyHashCerradoI<K,V> {
                     while (!com) {
                         if (nuevatable[indice] == null) {
                             nuevatable[indice] = nuevo;
-                            System.out.println("se reagrego la key " + key + " en el indice " + indice);
                             com = true;
                         }
                         else{
@@ -208,7 +200,7 @@ public class MyHashCerrado<K,V> implements MyHashCerradoI<K,V> {
             }
         }
         setTable(nuevatable);
-        System.out.println(table[27].getKey());
+        System.out.println("Se reasigno la tabala");
     }
 
     public int indice(K key) throws NoEsta {

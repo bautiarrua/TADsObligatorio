@@ -261,7 +261,7 @@ public class Prueba2 {
         assertEquals(true,hash.contains(26));
     }
     @Test
-    public void hash_remove(){
+    public void hash_remove_rehash(){
         try {
             hash.put(10,10);
             hash.put(26,26);
@@ -343,6 +343,7 @@ public class Prueba2 {
             hash.put(7,7);
             hash.put(8,8);
             hash.put(5,5);
+            hash.put(11,11);
             hash.put(9,9);
             hash.put(27,27);
         }catch (YaExiste e){}
@@ -363,9 +364,10 @@ public class Prueba2 {
         assertEquals(true,hash.contains(9));
         assertEquals(true,hash.contains(27));
         assertEquals(true,hash.contains(17));
-       assertEquals(true,hash.contains(32));
+        assertEquals(true,hash.contains(32));
+        assertEquals(true,hash.contains(29));
 
-        assertEquals(14.0,hash.size());
+        assertEquals(16.0,hash.size());
         assertEquals(32,hash.capacity());
         try {
            assertEquals(10,hash.indice(10));
