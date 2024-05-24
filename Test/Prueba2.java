@@ -201,20 +201,20 @@ public class Prueba2 {
 
     @Test
     public void hash_size(){
-        assertEquals(0,hash.size());
+        assertEquals(0.0,hash.size());
         try {
             hash.put(10,10);
             hash.put(11,11);
         }catch (YaExiste e){}
-        assertEquals(2,hash.size());
+        assertEquals(2.0,hash.size());
         try {
             hash.remove(10);
         }catch (NoEsta e){}
-        assertEquals(1,hash.size());
+        assertEquals(1.0,hash.size());
         try {
             hash.remove(11);
         }catch (NoEsta e){}
-        assertEquals(0,hash.size());
+        assertEquals(.0,hash.size());
     }
     @Test
     public void hash_put(){
@@ -227,7 +227,22 @@ public class Prueba2 {
         try {
             assertEquals(10,hash.get(10));
         }catch (NoEsta e){}
-        assertEquals(3,hash.size());
+        assertEquals(3.0,hash.size());
+    }
+
+    @Test
+    public void hash_indice(){
+        try {
+            hash.put(10,10);
+            hash.put(26,26);
+            hash.put(42,42);
+        }catch (YaExiste e){System.out.println("Ya existe");}
+        try {
+            assertEquals(10,hash.indice(10));
+            assertEquals(11,hash.indice(26));
+            assertEquals(12,hash.indice(42));
+        }catch (NoEsta e){}
+
     }
 
     @Test
@@ -248,16 +263,29 @@ public class Prueba2 {
     @Test
     public void hash_remove(){
         try {
-            hash.put(10,100);
-            hash.put(20,200);
+            hash.put(10,10);
+            hash.put(26,26);
+            hash.put(27,27);
+            hash.put(42,42);
         }catch (YaExiste e){}
         assertEquals(true,hash.contains(10));
-        assertEquals(2,hash.size());
+        assertEquals(4.0,hash.size());
+        try {
+            assertEquals(10,hash.indice(10));
+            assertEquals(11,hash.indice(26));
+            assertEquals(12,hash.indice(27));
+            assertEquals(13,hash.indice(42));
+        }catch (NoEsta e){}
         try {
             hash.remove(10);
         }catch (NoEsta e){}
         assertEquals(false,hash.contains(10));
-        assertEquals(1,hash.size());
+        assertEquals(3.0,hash.size());
+        try {
+            assertEquals(10,hash.indice(26));
+            assertEquals(11,hash.indice(27));
+            assertEquals(12,hash.indice(42));
+        }catch (NoEsta e){}
     }
 
     @Test
@@ -272,7 +300,7 @@ public class Prueba2 {
             assertEquals(200,hash.get(20));
             assertEquals(false,hash.contains(10));
             assertEquals(10,hash.get(10));
-            assertEquals(1,hash.size());
+            assertEquals(1.0,hash.size());
             assertNull(hash.get(10));
         }catch (NoEsta e){}
     }
@@ -301,6 +329,52 @@ public class Prueba2 {
         assertEquals(true,Kl.contains(200));
         assertEquals(true,Kl.contains(150));
     }
+
+    @Test
+    public void hash_resize(){
+        try {
+            hash.put(0,0);
+            hash.put(1,1);
+            hash.put(2,2);
+            hash.put(3,3);
+            hash.put(4,4);
+            hash.put(10,10);
+            hash.put(6,6);
+            hash.put(7,7);
+            hash.put(8,8);
+            hash.put(5,5);
+            hash.put(9,9);
+            hash.put(27,27);
+        }catch (YaExiste e){}
+        try {
+            hash.put(29,29);
+            hash.put(17,17);
+            hash.put(32,51);
+        }catch (YaExiste e){System.out.println("ya esxiste");}
+        assertEquals(true,hash.contains(0));
+        assertEquals(true,hash.contains(1));
+        assertEquals(true,hash.contains(2));
+        assertEquals(true,hash.contains(3));
+        assertEquals(true,hash.contains(4));
+        assertEquals(true,hash.contains(6));
+        assertEquals(true,hash.contains(7));
+        assertEquals(true,hash.contains(8));
+        assertEquals(true,hash.contains(5));
+        assertEquals(true,hash.contains(9));
+        assertEquals(true,hash.contains(27));
+        assertEquals(true,hash.contains(17));
+       assertEquals(true,hash.contains(32));
+
+        assertEquals(14.0,hash.size());
+        assertEquals(32,hash.capacity());
+        try {
+           assertEquals(10,hash.indice(10));
+            assertEquals(27,hash.indice(27));
+            assertEquals(17,hash.indice(17));
+            assertEquals(9,hash.indice(9));
+        }catch (NoEsta e){System.out.println("NOESTA");}
+    }
+
 
 }
 

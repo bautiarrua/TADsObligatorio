@@ -18,6 +18,12 @@ public interface MyHashCerradoI<K, V> {
 
     MyLinkedListImpl<V> Values();
 
-    int size();
+    float size();
+    int capacity();
+    int indice(K key) throws NoEsta;
+
+    void rehash(int indice);
+
+    void resize();
 
 }

@@ -15,15 +15,13 @@ public class Main {
         try {
             hash.put(10,10);
             hash.put(26,26);
+            hash.put(27,27);
+            hash.put(42,42);
         }catch (YaExiste e){}
         try {
-            hash.put(42,42);
-        }catch (YaExiste e){System.out.println("YA EXISTE");}
-        System.out.println(hash.size());
+            hash.remove(10);
+        }catch (NoEsta e){}
         System.out.println(hash.contains(10));
-        System.out.println(hash.contains(26));
-        System.out.println(hash.contains(42));
-
 
     }
 }
