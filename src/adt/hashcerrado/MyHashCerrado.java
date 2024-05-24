@@ -197,6 +197,7 @@ public class MyHashCerrado<K,V> implements MyHashCerradoI<K,V> {
             }
         }
     }
+
     public int indice(K key) throws NoEsta {
         int a = 0;
         int indice = hash(key) % capacity;
