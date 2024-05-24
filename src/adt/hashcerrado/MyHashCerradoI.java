@@ -23,7 +23,6 @@ public interface MyHashCerradoI<K, V> {
     int indice(K key) throws NoEsta;
 
     void rehash(int indice);
-
-//    private void resize();
+    void resize();
 
 }

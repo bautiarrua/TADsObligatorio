@@ -11,16 +11,15 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 public class MyHashCerrado<K,V> implements MyHashCerradoI<K,V> {
 
-    private int capacityd = 16;
+    private int capacity;
     final double FactorDeCarga = 0.75;
     private Entry<K, V>[] table;
     MyLinkedListImpl<K> keys = new MyLinkedListImpl<>();
     MyLinkedListImpl<V> values = new MyLinkedListImpl<>();
-    private int capacity;
     float size = 0;
 
     public MyHashCerrado() {
-        this.capacity = capacityd;
+        this.capacity = 16;
         this.table = new Entry[capacity];
     }
 
@@ -174,101 +173,30 @@ public class MyHashCerrado<K,V> implements MyHashCerradoI<K,V> {
                     rehash(indice);
                 }
             }
-
     }
-
-    private void resize() {
-        boolean com;
-        setCapacity(capacity * 2);
-        Entry<K, V>[] nuevatable = new Entry[capacity];
-        for (int i = 0; i < capacity / 2; i++) {
-            com = false;
-            if (table[i] != null) {
-                if (!table[i].isDeleted()) {
-                    K keyTemp = table[i].getKey();
-                    V valueTemp = table[i].getValue();
-                    Entry<K, V> nuevo = new Entry<>(keyTemp, valueTemp);
-                    int indice = hash(keyTemp) % capacity;
-                    while (!com) {
-                        if (nuevatable[indice] == null) {
-                            nuevatable[indice] = nuevo;
-                            com = true;
-                        }
-                        else{
-                            indice = (hash(keyTemp)+1)%capacity;
-                        }
-
-                    }
-                }
-
-            }
-        }
-        setTable(nuevatable);
-        System.out.println("Se reasigno la tabala");
-    }
-
-    private void resize2() {
-
+    public void resize() {
         setCapacity(capacity * 2);
         Entry<K, V>[] nuevatable = new Entry[capacity];
         setTable(nuevatable);
-
         for (int i = 0; i < Keys().size() ; i++) {
-
+            boolean com = false;
+            int a = 0;
             K keyTemp = Keys().get(i);
             V valueTemp = Values().get(i);
-            try {
-                put(keyTemp, valueTemp);
-            }catch (YaExiste YaExiste){
-                System.out.println("Ya existe");
-                // Esto igual nunca va a pasar porque no se puede repetir
+            int indice = hash(keyTemp) % capacity;
+            Entry<K, V> nuevo = new Entry<>(keyTemp, valueTemp);
+            while (!com) {
+                a++;
+                if (nuevatable[indice] == null) {
+                    nuevatable[indice] = nuevo;
+                    com = true;
+                }
+                else{
+                    indice = (hash(keyTemp)+a)%capacity;
+                }
             }
-
         }
     }
-//
-//    import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
-//import static org.junit.jupiter.api.Assertions.*;
-//
-//    class MyHashCerradoTest {
-//        private MyHashCerrado<Integer, String> hashCerrado;
-//
-//        @BeforeEach
-//        void setUp() {
-//            hashCerrado = new MyHashCerrado<>();
-//        }
-//
-//@Test
-//void resize2ShouldDoubleCapacity() {
-//    int initialCapacity = hashCerrado.capacity();
-//    hashCerrado.resize2();
-//    assertEquals(initialCapacity * 2, hashCerrado.capacity());
-//}
-//
-//    @Test
-//    void resize2ShouldRetainExistingEntries() throws YaExiste, NoEsta {
-//        hashCerrado.put(1, "one");
-//        hashCerrado.put(2, "two");
-//        hashCerrado.resize2();
-//        assertEquals("one", hashCerrado.get(1));
-//        assertEquals("two", hashCerrado.get(2));
-//    }
-//
-//    @Test
-//    void resize2ShouldNotThrowExceptionWhenCalledOnEmptyHash() {
-//        assertDoesNotThrow(() -> hashCerrado.resize2());
-//    }
-//
-//    @Test
-//    void resize2ShouldNotChangeSize() throws YaExiste {
-//        hashCerrado.put(1, "one");
-//        hashCerrado.put(2, "two");
-//        int initialSize = (int) hashCerrado.size();
-//        hashCerrado.resize2();
-//        assertEquals(initialSize, hashCerrado.size());
-//    }
-
     public int indice(K key) throws NoEsta {
         int a = 0;
         int indice = hash(key) % capacity;
