@@ -14,8 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class Prueba2 {
     MyStack<Integer> stack;
@@ -71,7 +70,7 @@ public class Prueba2 {
     public void linkedlist_contains() {
         lista.add(20);
         assertEquals(1, lista.size());
-        assertEquals(true,lista.contains(20));
+        assertTrue(lista.contains(20));
     }
     @Test
     public void linkedlist_add(){
@@ -79,8 +78,8 @@ public class Prueba2 {
         lista.add(300);
         assertEquals(2,lista.size());
         assertEquals(300,lista.get(1));
-        assertEquals(true,lista.contains(200));
-        assertEquals(true,lista.contains(300));
+        assertTrue(lista.contains(200));
+        assertTrue(lista.contains(300));
     }
     @Test
     public void linkedlist_remove(){
@@ -90,8 +89,8 @@ public class Prueba2 {
         lista.remove(200);
         assertEquals(1,lista.size());
         assertEquals(300,lista.get(0));
-        assertEquals(true,lista.contains(300));
-        assertEquals(false,lista.contains(200));
+        assertTrue(lista.contains(300));
+        assertFalse(lista.contains(200));
     }
     @Test
     public void queue_size(){
@@ -103,49 +102,49 @@ public class Prueba2 {
     public void queue_contains() {
         queue.enqueue(20);
         assertEquals(1, queue.size());
-        assertEquals(true,queue.contains(20));
+        assertTrue(queue.contains(20));
     }
     @Test
     public void queue_enqueue(){
         queue.enqueue(3);
         assertEquals(1,queue.size());
-        assertEquals(true,queue.contains(3));
+        assertTrue(queue.contains(3));
     }
     @Test
     public void queue_denqueue() throws EmptyQueueException {
         MyQueue<Integer> queue = new MyLinkedListImpl<>();
         queue.enqueue(3);
         assertEquals(1,queue.size());
-        assertEquals(true,queue.contains(3));
+        assertTrue(queue.contains(3));
         queue.dequeue();
         assertEquals(0,queue.size());
-        assertEquals(false,queue.contains(3));
+        assertFalse(queue.contains(3));
 
     }
 
     @Test
     public void arbol_contains(){
         arbol.add(1);
-        assertEquals(true,arbol.contains(1));
+        assertTrue(arbol.contains(1));
     }
     @Test
     public void arbol_add(){
         arbol.add(1);
-        assertEquals(true,arbol.contains(1));
+        assertTrue(arbol.contains(1));
     }
     @Test
     public void arbol_find(){
         arbol.add(1);
-        assertEquals(true,arbol.contains(1));
+        assertTrue(arbol.contains(1));
         assertEquals(1,arbol.find(1));
     }
     @Test
     public void arbol_remove(){
         arbol.add(1);
         arbol.add(2);
-        assertEquals(true,arbol.contains(2));
+        assertTrue(arbol.contains(2));
         arbol.remove(2);
-        assertEquals(false,arbol.contains(2));
+        assertFalse(arbol.contains(2));
     }
 
     @Test
@@ -222,7 +221,10 @@ public class Prueba2 {
             hash.put(10,10);
             hash.put(26,26);
             hash.put(42,42);
-        }catch (YaExiste e){System.out.println("Ya existe");}
+            hash.put(10,10);
+        }catch (YaExiste e){
+            System.out.println("Ya existe");
+        }
         assertEquals(true,hash.contains(10));
         try {
             assertEquals(10,hash.get(10));
@@ -313,9 +315,9 @@ public class Prueba2 {
             hash.put(15,15);
         }catch (YaExiste e){}
         MyLinkedListImpl<Integer> Kl = hash.Keys();
-        assertEquals(true,Kl.contains(10));
-        assertEquals(true,Kl.contains(20));
-        assertEquals(true,Kl.contains(15));
+        assertTrue(Kl.contains(10));
+        assertTrue(Kl.contains(20));
+        assertTrue(Kl.contains(15));
     }
      @Test
     public void hash_Linkedlistvalue(){
@@ -325,9 +327,9 @@ public class Prueba2 {
              hash.put(15,15);
          }catch (YaExiste e){}
         MyLinkedListImpl<Integer> Kl = hash.Values();
-        assertEquals(true,Kl.contains(100));
-        assertEquals(true,Kl.contains(200));
-        assertEquals(true,Kl.contains(150));
+         assertTrue(Kl.contains(100));
+         assertTrue(Kl.contains(200));
+         assertTrue(Kl.contains(15));
     }
 
     @Test
@@ -377,6 +379,52 @@ public class Prueba2 {
         }catch (NoEsta e){System.out.println("NOESTA");}
     }
 
+    @Test
+    public void hash_resize2(){
+        try {
+            hash.put(0,0);
+            hash.put(1,1);
+            hash.put(2,2);
+            hash.put(3,3);
+            hash.put(4,4);
+            hash.put(10,10);
+            hash.put(6,6);
+            hash.put(7,7);
+            hash.put(8,8);
+            hash.put(5,5);
+            hash.put(11,11);
+            hash.put(9,9);
+            hash.put(27,27);
+        }catch (YaExiste e){}
+        try {
+            hash.put(29,29);
+            hash.put(17,17);
+            hash.put(32,51);
+        }catch (YaExiste e){System.out.println("ya esxiste");}
+        assertEquals(true,hash.contains(0));
+        assertEquals(true,hash.contains(1));
+        assertEquals(true,hash.contains(2));
+        assertEquals(true,hash.contains(3));
+        assertEquals(true,hash.contains(4));
+        assertEquals(true,hash.contains(6));
+        assertEquals(true,hash.contains(7));
+        assertEquals(true,hash.contains(8));
+        assertEquals(true,hash.contains(5));
+        assertEquals(true,hash.contains(9));
+        assertEquals(true,hash.contains(27));
+        assertEquals(true,hash.contains(17));
+        assertEquals(true,hash.contains(32));
+        assertEquals(true,hash.contains(29));
+
+        assertEquals(16.0,hash.size());
+        assertEquals(32,hash.capacity());
+        try {
+            assertEquals(10,hash.indice(10));
+            assertEquals(27,hash.indice(27));
+            assertEquals(17,hash.indice(17));
+            assertEquals(9,hash.indice(9));
+        }catch (NoEsta e){System.out.println("NOESTA");}
+    }
 
 }
 

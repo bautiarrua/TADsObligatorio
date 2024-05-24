@@ -24,6 +24,6 @@ public interface MyHashCerradoI<K, V> {
 
     void rehash(int indice);
 
-    void resize();
+//    private void resize();
 
 }

@@ -3,18 +3,15 @@ package adt.hashcerrado;
 import adt.Exceptions.NoEsta;
 import adt.Exceptions.YaExiste;
 import adt.linkedlist.MyLinkedListImpl;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 
 public class MyHashCerrado<K,V> implements MyHashCerradoI<K,V> {
 
     private int capacityd = 16;
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-    public void setTable(Entry<K, V>[] table) {
-        this.table = table;
-    }
     final double FactorDeCarga = 0.75;
     private Entry<K, V>[] table;
     MyLinkedListImpl<K> keys = new MyLinkedListImpl<>();
@@ -25,6 +22,13 @@ public class MyHashCerrado<K,V> implements MyHashCerradoI<K,V> {
     public MyHashCerrado() {
         this.capacity = capacityd;
         this.table = new Entry[capacity];
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+    public void setTable(Entry<K, V>[] table) {
+        this.table = table;
     }
 
     private int hash(K key) {
@@ -159,12 +163,12 @@ public class MyHashCerrado<K,V> implements MyHashCerradoI<K,V> {
             }
             if(table[indice]!=null) {
                 if (!table[indice].isDeleted()) {
-                    K key = table[indice].getKey();
-                    V value = table[indice].getValue();
+                    K keyTemp = table[indice].getKey();
+                    V valueTemp = table[indice].getValue();
                     table[indice].setDeleted(true);
                     size--;
                     try {
-                        this.put(key, value);
+                        this.put(keyTemp, valueTemp);
                     } catch (YaExiste e) {
                     }
                     rehash(indice);
@@ -173,25 +177,25 @@ public class MyHashCerrado<K,V> implements MyHashCerradoI<K,V> {
 
     }
 
-    public void resize() {
-        boolean com = false;
+    private void resize() {
+        boolean com;
         setCapacity(capacity * 2);
         Entry<K, V>[] nuevatable = new Entry[capacity];
         for (int i = 0; i < capacity / 2; i++) {
             com = false;
             if (table[i] != null) {
                 if (!table[i].isDeleted()) {
-                    K key = table[i].getKey();
-                    V value = table[i].getValue();
-                    Entry<K, V> nuevo = new Entry<>(key, value);
-                    int indice = hash(key) % capacity;
+                    K keyTemp = table[i].getKey();
+                    V valueTemp = table[i].getValue();
+                    Entry<K, V> nuevo = new Entry<>(keyTemp, valueTemp);
+                    int indice = hash(keyTemp) % capacity;
                     while (!com) {
                         if (nuevatable[indice] == null) {
                             nuevatable[indice] = nuevo;
                             com = true;
                         }
                         else{
-                            indice = (hash(key)+1)%capacity;
+                            indice = (hash(keyTemp)+1)%capacity;
                         }
 
                     }
@@ -202,6 +206,68 @@ public class MyHashCerrado<K,V> implements MyHashCerradoI<K,V> {
         setTable(nuevatable);
         System.out.println("Se reasigno la tabala");
     }
+
+    private void resize2() {
+
+        setCapacity(capacity * 2);
+        Entry<K, V>[] nuevatable = new Entry[capacity];
+        setTable(nuevatable);
+
+        for (int i = 0; i < Keys().size() ; i++) {
+
+            K keyTemp = Keys().get(i);
+            V valueTemp = Values().get(i);
+            try {
+                put(keyTemp, valueTemp);
+            }catch (YaExiste YaExiste){
+                System.out.println("Ya existe");
+                // Esto igual nunca va a pasar porque no se puede repetir
+            }
+
+        }
+    }
+//
+//    import org.junit.jupiter.api.BeforeEach;
+//import org.junit.jupiter.api.Test;
+//import static org.junit.jupiter.api.Assertions.*;
+//
+//    class MyHashCerradoTest {
+//        private MyHashCerrado<Integer, String> hashCerrado;
+//
+//        @BeforeEach
+//        void setUp() {
+//            hashCerrado = new MyHashCerrado<>();
+//        }
+//
+//@Test
+//void resize2ShouldDoubleCapacity() {
+//    int initialCapacity = hashCerrado.capacity();
+//    hashCerrado.resize2();
+//    assertEquals(initialCapacity * 2, hashCerrado.capacity());
+//}
+//
+//    @Test
+//    void resize2ShouldRetainExistingEntries() throws YaExiste, NoEsta {
+//        hashCerrado.put(1, "one");
+//        hashCerrado.put(2, "two");
+//        hashCerrado.resize2();
+//        assertEquals("one", hashCerrado.get(1));
+//        assertEquals("two", hashCerrado.get(2));
+//    }
+//
+//    @Test
+//    void resize2ShouldNotThrowExceptionWhenCalledOnEmptyHash() {
+//        assertDoesNotThrow(() -> hashCerrado.resize2());
+//    }
+//
+//    @Test
+//    void resize2ShouldNotChangeSize() throws YaExiste {
+//        hashCerrado.put(1, "one");
+//        hashCerrado.put(2, "two");
+//        int initialSize = (int) hashCerrado.size();
+//        hashCerrado.resize2();
+//        assertEquals(initialSize, hashCerrado.size());
+//    }
 
     public int indice(K key) throws NoEsta {
         int a = 0;
@@ -222,4 +288,5 @@ public class MyHashCerrado<K,V> implements MyHashCerradoI<K,V> {
             throw new NoEsta();
         }
     }
+
 }
