@@ -3,10 +3,6 @@ package adt.hashcerrado;
 import adt.Exceptions.NoEsta;
 import adt.Exceptions.YaExiste;
 import adt.linkedlist.MyLinkedListImpl;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 
 public class MyHashCerrado<K,V> implements MyHashCerradoI<K,V> {

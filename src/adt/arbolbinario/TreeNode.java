@@ -6,10 +6,6 @@ package adt.arbolbinario;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author pegardan
- *
- */
 public class TreeNode<T extends Comparable<T>> {
 
 	private T value;

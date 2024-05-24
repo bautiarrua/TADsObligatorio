@@ -6,11 +6,6 @@ package adt.arbolbinario;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author pegardan
- * @param <T>
- *
- */
 public class SearchBinaryTreeImpl<T extends Comparable<T>> implements
 		BinaryTree<T> {
 
